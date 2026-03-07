@@ -1,0 +1,38 @@
+<header class="header">
+
+  <div class="header-container">
+
+    <!-- SEARCH -->
+    <div class="search-wrapper">
+
+        <input
+            type="text"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+            (keyup.enter)="search()"
+        />
+
+        <button
+            type="button"
+            class="search-btn"
+            (click)="search()"
+        >
+            🔍
+        </button>
+
+    </div>
+
+    <!-- RIGHT SECTION -->
+    <div class="right-section">
+
+      <span class="bell">🔔</span>
+
+      <div class="avatar">
+        A
+      </div>
+
+    </div>
+
+  </div>
+
+</header>

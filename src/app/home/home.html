@@ -1,0 +1,150 @@
+@if (articles$ | async; as articles) {
+   
+<div class="container">
+  <div class="left">
+    <!-- FEATURED CAROUSEL -->
+    @if (!searchKeyword && featuredArticles.length > 0 && currentSlide >= 0) {
+ 
+      <div class="carousel">
+
+        <img
+          [src]="featuredArticles[currentSlide]?.thumbnail"
+          class="carousel-img"
+        >
+
+        <div class="carousel-overlay">
+
+          <span class="tag">POPULAR</span>
+
+          <h2>
+            {{ featuredArticles[currentSlide].title }}
+          </h2>
+
+          <p>
+            {{ featuredArticles[currentSlide].description }}
+          </p>
+ 
+          <div class="meta">
+            <span>{{ featuredArticles[currentSlide].readTime }}</span>
+            <span>👁 {{ featuredArticles[currentSlide].views }}</span>
+            <span>❤️ {{ featuredArticles[currentSlide].likes }}</span>
+          </div>
+
+        </div>
+
+        <!-- arrow s -->
+        <button class="arrow left" (click)="prevSlide()">❮</button>
+        <button class="arrow right" (click)="nextSlide()">❯</button>
+
+        <!-- dots -->
+        <div class="dots">
+          @for (article of featuredArticles; track $index; let i = $index) {
+
+            <span
+              class="dot"
+              [class.active]="i === currentSlide"
+              (click)="goToSlide(i)">
+            </span>
+
+          }
+        </div>
+
+      </div>
+
+    }
+
+    <!-- SORT TOOLBAR -->
+    <div class="articles-toolbar">
+
+      <div class="sort-container">
+
+        <label>Sort By:</label>
+
+        <select
+          [value]="sortType"
+          (change)="onSortChange($event)"
+        >
+
+          <option value="all">All</option>
+          <option value="latest">Latest</option>
+          <option value="popular">Most Popular</option>
+          <option value="editor">Editor's Pick</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <!-- ALL ARTICLES -->
+    @for (article of articles; track $index) {
+
+      <div class="article-card">
+
+        <div class="content">
+
+          <h3>{{ article.title }}</h3>
+
+          <p>{{ article.description }}</p>
+
+          <div class="meta">
+            <span>{{ article.publishDate }}</span>
+            <span>{{ article.readTime }}</span>
+            <span>👁 {{ article.views }}</span>
+            <span>❤️ {{ article.likes }}</span>
+          </div>
+
+          <div class="author">
+            <img [src]="article.authorImage">
+            <span>{{ article.author }}</span>
+            <span class="bookmark">🔖</span>
+          </div>
+
+        </div>
+
+        <img
+          [src]="article.thumbnail"
+          class="thumb"
+        >
+
+      </div>
+    }
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+
+      <button (click)="prevPage()" [disabled]="currentPage === 1">
+        Prev
+      </button>
+
+      @for (p of pages; track $index) {
+
+        <button
+          (click)="changePage(p)"
+          [class.active]="p === currentPage">
+          {{p}}
+        </button>
+
+      }
+
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages">
+        Next
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="right">
+
+    <button class="draft-btn">
+      Draft an article ✏️
+    </button>
+
+  </div>
+
+</div>
+
+}
