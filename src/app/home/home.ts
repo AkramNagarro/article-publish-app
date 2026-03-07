@@ -54,14 +54,14 @@ export class Home {
 
         let filtered = [...articles];
 
-        if (this.searchKeyword) {
+        if (this.searchKeyword && this.searchKeyword.trim().length >= 3) {
           const keyword = this.searchKeyword.trim().toLowerCase();
 
           filtered = articles.filter(article => {
             const titleMatch = article.title?.toLowerCase().includes(keyword);
             const authorMatch = article.author?.toLowerCase().includes(keyword);
             const keywordMatch = article.keywords?.some(k =>
-              k.toLowerCase().includes(keyword)
+              k.toLowerCase() === keyword
             );
 
             return titleMatch || authorMatch || keywordMatch;

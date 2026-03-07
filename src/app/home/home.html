@@ -94,6 +94,15 @@
             <span>❤️ {{ article.likes }}</span>
           </div>
 
+          <div class="keywords">
+            @for (key of article.keywords; track $index) {
+              <span class="keyword-tag">
+                {{ key }}
+              </span>
+            }
+          </div>
+
+          <!-- AUTHOR -->
           <div class="author">
             <img [src]="article.authorImage">
             <span>{{ article.author }}</span>

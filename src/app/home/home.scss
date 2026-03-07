@@ -223,3 +223,21 @@
   color: #666;
   font-size: 16px;
 }
+
+/* KEYWORDS */
+
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.keyword-tag {
+  background: #f1f3f5;
+  border: 1px solid #ddd;
+  padding: 3px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  color: #444;
+}
