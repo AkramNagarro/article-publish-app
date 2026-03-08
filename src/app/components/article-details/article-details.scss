@@ -577,6 +577,46 @@
   color: #e63946;
 }
 
+.icon-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: inherit;
+  font: inherit;
+}
+
+.like-btn {
+  color: #555;
+}
+
+.like-btn.active {
+  color: #e63946;
+}
+
+.bookmark-btn {
+  color: #999;
+}
+
+.bookmark-btn.active {
+  color: #e63946;
+}
+
+.like-btn {
+  color: #000; /* black border heart */
+}
+
+.like-btn.active {
+  color: #e63946; /* red heart */
+}
+
+.like-btn i {
+  font-size: 20px;
+}
+
 @media (max-width: 768px) {
   .article-title {
     font-size: 30px;

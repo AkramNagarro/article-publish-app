@@ -53,23 +53,34 @@
 
             <!-- STATS -->
             <div class="stats-row">
-                <div class="stats-left">
-                    <span>👁 {{ vm.article.views }}</span>
-                    <span>❤️ {{ vm.article.likes }}</span>
-                </div>
+            <div class="stats-left">
+                <span>👁 {{ vm.article.views }}</span>
 
-                <div class="stats-right">
+                <button
+                    type="button"
+                    class="icon-btn like-btn"
+                    [class.active]="vm.article.liked"
+                    (click)="toggleLike(vm.article)"
+                    >
+                    <i class="material-icons">
+                        {{ vm.article.liked ? 'favorite' : 'favorite_border' }}
+                    </i>
+                    {{ vm.article.likes }}
+                </button>
+            </div>
 
-                    <span
-                        class="bookmark-icon"
-                        [class.active]="vm.article.bookmark"
-                        >
-                        <i class="material-icons">
-                            {{ vm.article.bookmark ? 'bookmark' : 'bookmark_border' }}
-                        </i>
-                    </span>
-
-                </div>
+            <div class="stats-right">
+                <button
+                type="button"
+                class="icon-btn bookmark-btn"
+                [class.active]="vm.article.bookmark"
+                (click)="toggleBookmark(vm.article)"
+                >
+                <i class="material-icons">
+                    {{ vm.article.bookmark ? 'bookmark' : 'bookmark_border' }}
+                </i>
+                </button>
+            </div>
             </div>
 
             <!-- IMAGE -->

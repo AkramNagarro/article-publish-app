@@ -241,3 +241,47 @@
   border-radius: 4px;
   color: #444;
 }
+
+.icon-btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.heart-btn {
+  color: inherit;
+}
+
+.heart-btn.active {
+  color: #e63946;
+}
+
+.bookmark-btn {
+  color: inherit;
+  font-size: 16px;
+}
+
+.bookmark-btn.active {
+  color: #e63946;
+}
+
+.like-btn {
+  color: #000;   /* default black outline heart */
+}
+
+.like-btn i {
+  font-size: 20px;
+}
+
+.like-btn.active {
+  color: #e63946;  /* red when liked */
+}
+
+.like-btn.active i {
+  color: #e63946;
+}

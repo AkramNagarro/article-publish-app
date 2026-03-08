@@ -16,4 +16,12 @@ export class ArticleService {
     return this.http.get<Article[]>(this.api);
   }
 
+  getArticleById(id: string) {
+    return this.http.get<Article>(`http://localhost:3000/articles/${id}`);
+  }
+
+  updateArticle(id: string, payload: Partial<Article>) {
+    return this.http.patch<Article>(`http://localhost:3000/articles/${id}`, payload);
+  }
+
 }

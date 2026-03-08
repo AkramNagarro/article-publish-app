@@ -27,25 +27,43 @@
           <div class="meta">
             <span>{{ featuredArticles[currentSlide].readTime }}</span>
             <span>👁 {{ featuredArticles[currentSlide].views }}</span>
-            <span>❤️ {{ featuredArticles[currentSlide].likes }}</span>
+
+            <button
+              type="button"
+              class="icon-btn like-btn"
+              [class.active]="featuredArticles[currentSlide].liked"
+              (click)="toggleLike(featuredArticles[currentSlide]); $event.stopPropagation()"
+            >
+              <i class="material-icons">
+                {{ featuredArticles[currentSlide].liked ? 'favorite' : 'favorite_border' }}
+              </i>
+              {{ featuredArticles[currentSlide].likes }}
+            </button>
+
+            <button
+              type="button"
+              class="icon-btn bookmark-btn"
+              [class.active]="featuredArticles[currentSlide].bookmark"
+              (click)="toggleBookmark(featuredArticles[currentSlide]); $event.stopPropagation()"
+            >
+              <i class="material-icons">
+                {{ featuredArticles[currentSlide].bookmark ? 'bookmark' : 'bookmark_border' }}
+              </i>
+            </button>
           </div>
 
         </div>
 
-        <!-- arrow s -->
         <button class="arrow left" (click)="prevSlide()">❮</button>
         <button class="arrow right" (click)="nextSlide()">❯</button>
 
-        <!-- dots -->
         <div class="dots">
-          @for (article of featuredArticles; track $index; let i = $index) {
-
+          @for (article of featuredArticles; track article.id; let i = $index) {
             <span
               class="dot"
               [class.active]="i === currentSlide"
               (click)="goToSlide(i)">
             </span>
-
           }
         </div>
 
@@ -77,7 +95,7 @@
     </div>
 
     <!-- ALL ARTICLES -->
-    @for (article of articles; track $index) {
+    @for (article of articles; track article.id) {
 
       <div class="article-card">
 
@@ -91,22 +109,42 @@
             <span>{{ article.publishDate }}</span>
             <span>{{ article.readTime }}</span>
             <span>👁 {{ article.views }}</span>
-            <span>❤️ {{ article.likes }}</span>
+
+            <button
+              type="button"
+              class="icon-btn like-btn"
+              [class.active]="article.liked"
+              (click)="toggleLike(article); $event.stopPropagation()"
+            >
+              <i class="material-icons">
+                {{ article.liked ? 'favorite' : 'favorite_border' }}
+              </i>
+              {{ article.likes }}
+            </button>
           </div>
 
           <div class="keywords">
-            @for (key of article.keywords; track $index) {
+            @for (key of article.keywords; track key) {
               <span class="keyword-tag">
                 {{ key }}
               </span>
             }
           </div>
 
-          <!-- AUTHOR -->
           <div class="author">
             <img [src]="article.authorImage">
             <span>{{ article.author }}</span>
-            <span class="bookmark">🔖</span>
+
+            <button
+              type="button"
+              class="icon-btn bookmark-btn"
+              [class.active]="article.bookmark"
+              (click)="toggleBookmark(article); $event.stopPropagation()"
+            >
+              <i class="material-icons">
+                {{ article.bookmark ? 'bookmark' : 'bookmark_border' }}
+              </i>
+            </button>
           </div>
 
         </div>

@@ -27,6 +27,7 @@ export class Home {
   sortType = 'all';
 
   private page$ = new BehaviorSubject<number>(1);
+  private refresh$ = new BehaviorSubject<number>(0);
 
   constructor(
     private route: ActivatedRoute,
@@ -37,7 +38,8 @@ export class Home {
   ngOnInit() {
     this.articles$ = combineLatest([
       this.route.queryParams,
-      this.page$
+      this.page$,
+      this.refresh$
     ]).pipe(
       switchMap(([params, page]) => {
         this.searchKeyword = params['search'] || '';
@@ -51,6 +53,10 @@ export class Home {
         this.featuredArticles = articles.filter(
           article => article.editorFavorite === true
         );
+
+        if (this.currentSlide >= this.featuredArticles.length) {
+          this.currentSlide = 0;
+        }
 
         let filtered = [...articles];
 
@@ -124,11 +130,15 @@ export class Home {
   }
 
   nextSlide() {
+    if (!this.featuredArticles.length) return;
+
     this.currentSlide =
       (this.currentSlide + 1) % this.featuredArticles.length;
   }
 
   prevSlide() {
+    if (!this.featuredArticles.length) return;
+
     this.currentSlide =
       (this.currentSlide - 1 + this.featuredArticles.length)
       % this.featuredArticles.length;
@@ -148,5 +158,28 @@ export class Home {
     });
 
     this.page$.next(1);
+  }
+
+  toggleLike(article: Article) {
+    const currentlyLiked = !!article.liked;
+
+    this.articleService.updateArticle(article.id, {
+      liked: !currentlyLiked,
+      likes: currentlyLiked
+        ? Math.max((article.likes ?? 0) - 1, 0)
+        : (article.likes ?? 0) + 1
+    }).subscribe({
+      next: () => this.refresh$.next(this.refresh$.value + 1),
+      error: (error) => console.error('Failed to update like', error)
+    });
+  }
+
+  toggleBookmark(article: Article) {
+    this.articleService.updateArticle(article.id, {
+      bookmark: !article.bookmark
+    }).subscribe({
+      next: () => this.refresh$.next(this.refresh$.value + 1),
+      error: (error) => console.error('Failed to update bookmark', error)
+    });
   }
 }
