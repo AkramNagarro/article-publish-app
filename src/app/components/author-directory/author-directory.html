@@ -1,0 +1,132 @@
+@if (vm$ | async; as vm) {
+  <div class="author-directory-page">
+    <div class="author-directory-container">
+
+      <!-- TOP -->
+      <div class="top-section">
+        <button class="back-btn" type="button" (click)="goHome()">
+          ←
+        </button>
+
+        <div class="hero-content">
+          <h1>Discover</h1>
+          <p>Step into a new zone, join a new conversation.</p>
+
+          <div class="search-box">
+            <span class="search-icon">⌕</span>
+
+            <input
+              type="text"
+              placeholder="Search author..."
+              [(ngModel)]="searchText"
+              (keyup)="onSearchKeyup()"
+            />
+          </div>
+
+          <div class="trending-wrapper">
+            <span class="trending-label">Trending keywords:</span>
+
+            <div class="trending-keywords">
+              @for (keyword of vm.trendingKeywords; track keyword) {
+                <span class="keyword-chip">
+                  # {{ keyword }}
+                </span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- READER'S CHOICE -->
+        @if (!vm.isSearching) {
+            <section class="section-block">
+                <div class="section-header">
+                <h2>Readers' choice</h2>
+                </div>
+
+                <div class="readers-grid">
+                @for (article of vm.readerChoiceArticles; track article.id) {
+                    <div class="reader-card">
+                    <div class="reader-image-wrap">
+                        <img
+                        [src]="article.thumbnail"
+                        [alt]="article.title"
+                        class="reader-image"
+                        />
+                    </div>
+
+                    <h3>{{ article.title }}</h3>
+                    </div>
+                }
+                </div>
+            </section>
+        }
+
+      <!-- RISING AUTHORS -->
+      <section class="section-block">
+
+        <!-- SEARCH RESULT MESSAGE -->
+
+        @if (vm.isSearching && vm.filteredAuthors.length > 0) {
+
+            <div class="search-result-header">
+            <h2>Results for "{{ vm.searchText }}"</h2>
+            <p>{{ vm.filteredAuthors.length }} authors found</p>
+            </div>
+
+        }
+
+        @if (vm.isSearching && vm.filteredAuthors.length === 0) {
+
+            <div class="search-result-header">
+            <h2>No results found for "{{ vm.searchText }}"</h2>
+            </div>
+
+        }
+
+        @if (!vm.isSearching) {
+
+            <div class="section-header">
+            <h2>Rising authors</h2>
+            </div>
+
+        }
+
+        <div class="authors-grid">
+          @for (author of vm.filteredAuthors; track author.id) {
+            <div class="author-card">
+                <div class="author-image-wrap">
+
+                    <div class="domain-pill">
+                        <span class="domain-icon">🛸</span>
+                        <span class="domain-text">{{ author.domain }}</span>
+                    </div>
+
+                    <img
+                        [src]="author.image"
+                        [alt]="author.name"
+                        class="author-image"
+                    />
+
+                </div>
+
+                <div class="author-info">
+
+                    <h3>{{ author.name }}</h3>
+
+                    <p class="author-bio">
+                        {{ author.bio }}
+                    </p>
+
+                    <p>{{ author.articleCount || 0 }} articles</p>
+
+                    <span>👁 {{ author.totalViews || 0 }} views</span>
+                </div>
+            </div>
+          }
+        </div>
+      </section>
+
+    </div>
+  </div>
+}

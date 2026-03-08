@@ -1,4 +1,20 @@
 {
+   "authors": [
+	{
+	  "id": 1,
+	  "name": "Benjamin Foster",
+	  "image": "https://i.pravatar.cc/400?img=5",
+	  "domain": "Blockchain",
+	  "bio": "Writes about blockchain, crypto systems, and the future of decentralized applications."
+	},
+	{
+	  "id": 2,
+	  "name": "Christopher Brown",
+	  "image": "https://i.pravatar.cc/400?img=8",
+	  "domain": "Technology",
+	  "bio": "Writes about blockchain, crypto systems, and the future of decentralized applications."
+	}
+  ],
   "users": [
     {
       "id": "u1",
@@ -38,16 +54,18 @@
 		"likes": 1800,
 		"views": 4000,
 		"readTime": "8 min read",
-		"bookmark": false,
+		"bookmark": true,
 		"keywords": ["blockchain", "crypto", "distributed ledger"],
-		"editorFavorite": true
+		"editorFavorite": true,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 2,
 		"title": "Understanding Artificial Intelligence in Everyday Life",
 		"thumbnail": "https://picsum.photos/900/300?random=2",
 		"description": "Artificial Intelligence is no longer science fiction and is already shaping modern society.",
-		"author": "Sophia Turner",
+		"author": "Benjamin Foster",
 		"authorImage": "https://i.pravatar.cc/40?img=10",
 		"publishDate": "2024-06-21",
 		"likes": 2100,
@@ -55,7 +73,9 @@
 		"readTime": "7 min read",
 		"bookmark": false,
 		"keywords": ["AI", "machine learning", "technology"],
-		"editorFavorite":true
+		"editorFavorite":true,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 3,
@@ -69,8 +89,10 @@
 		"views": 2100,
 		"readTime": "5 min read",
 		"bookmark": false,
-		"keywords": ["remote work", "productivity", "career"],
-		"editorFavorite":true
+		"keywords": ["remote work", "productivity", "career", "crypto"],
+		"editorFavorite":true,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 4,
@@ -84,30 +106,34 @@
 		"views": 3300,
 		"readTime": "6 min read",
 		"bookmark": false,
-		"keywords": ["cybersecurity", "internet safety", "technology"],
-		"editorFavorite":false
+		"keywords": ["cybersecurity", "internet safety", "technology", "crypto"],
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 5,
 		"title": "A Beginner’s Guide to Cloud Computing",
 		"thumbnail": "https://picsum.photos/900/300?random=5",
 		"description": "Cloud computing powers most of the digital services we use every day.",
-		"author": "Olivia Bennett",
+		"author": "Benjamin Foster",
 		"authorImage": "https://i.pravatar.cc/40?img=18",
 		"publishDate": "2024-06-24",
 		"likes": 1700,
 		"views": 2900,
 		"readTime": "6 min read",
 		"bookmark": false,
-		"keywords": ["cloud computing", "aws", "technology"],
-		"editorFavorite":false
+		"keywords": ["cloud computing", "aws", "technology", "crypto"],
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 6,
 		"title": "How 5G Technology Will Change the Future",
 		"thumbnail": "https://picsum.photos/900/300?random=6",
 		"description": "5G networks promise faster speeds and new possibilities for innovation.",
-		"author": "Ethan Walker",
+		"author": "Benjamin Foster",
 		"authorImage": "https://i.pravatar.cc/40?img=22",
 		"publishDate": "2024-06-25",
 		"likes": 1300,
@@ -115,22 +141,26 @@
 		"readTime": "7 min read",
 		"bookmark": false,
 		"keywords": ["5G", "telecommunication", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 7,
 		"title": "Top Programming Languages to Learn in 2024",
 		"thumbnail": "https://picsum.photos/900/300?random=7",
 		"description": "Developers must continuously adapt to the evolving tech landscape.",
-		"author": "Lucas Adams",
+		"author": "Benjamin Foster",
 		"authorImage": "https://i.pravatar.cc/40?img=28",
 		"publishDate": "2024-06-26",
 		"likes": 2500,
 		"views": 6100,
 		"readTime": "9 min read",
 		"bookmark": false,
-		"keywords": ["programming", "software development", "technology"],
-		"editorFavorite":false
+		"keywords": ["programming", "software development", "technology", "crypto"],
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 8,
@@ -144,8 +174,10 @@
 		"views": 3500,
 		"readTime": "6 min read",
 		"bookmark": false,
-		"keywords": ["electric vehicles", "sustainability", "automotive"],
-		"editorFavorite":false
+		"keywords": ["electric vehicles", "sustainability", "automotive", "crypto"],
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 9,
@@ -160,7 +192,9 @@
 		"readTime": "8 min read",
 		"bookmark": false,
 		"keywords": ["data science", "analytics", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 10,
@@ -175,7 +209,9 @@
 		"readTime": "5 min read",
 		"bookmark": false,
 		"keywords": ["ux design", "ui", "product design"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 
 	  {
@@ -191,7 +227,9 @@
 		"readTime": "7 min read",
 		"bookmark": false,
 		"keywords": ["quantum computing", "physics", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 12,
@@ -206,7 +244,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["social media", "communication", "internet"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 13,
@@ -221,7 +261,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["privacy", "cybersecurity", "data protection"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 14,
@@ -236,7 +278,9 @@
 		"readTime": "5 min read",
 		"bookmark": false,
 		"keywords": ["augmented reality", "education", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 15,
@@ -251,7 +295,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["iot", "smart devices", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 
 	  {
@@ -267,7 +313,9 @@
 		"readTime": "5 min read",
 		"bookmark": false,
 		"keywords": ["smartphones", "mobile", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 17,
@@ -282,7 +330,9 @@
 		"readTime": "7 min read",
 		"bookmark": false,
 		"keywords": ["open source", "software", "development"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 18,
@@ -297,7 +347,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["devops", "automation", "software"],
-		"editorFavorite":true
+		"editorFavorite":true,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 19,
@@ -312,7 +364,9 @@
 		"readTime": "7 min read",
 		"bookmark": false,
 		"keywords": ["big data", "analytics", "business"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 20,
@@ -327,7 +381,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["renewable energy", "sustainability", "environment"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 
 	  {
@@ -343,7 +399,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["virtual reality", "vr", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 22,
@@ -358,7 +416,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["api", "web development", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 23,
@@ -373,7 +433,9 @@
 		"readTime": "5 min read",
 		"bookmark": false,
 		"keywords": ["edge computing", "cloud", "technology"],
-		"editorFavorite":true
+		"editorFavorite":true,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 24,
@@ -388,7 +450,9 @@
 		"readTime": "7 min read",
 		"bookmark": false,
 		"keywords": ["social media", "psychology", "internet"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 25,
@@ -403,7 +467,9 @@
 		"readTime": "8 min read",
 		"bookmark": false,
 		"keywords": ["startups", "innovation", "business"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 
 	  {
@@ -419,7 +485,9 @@
 		"readTime": "8 min read",
 		"bookmark": false,
 		"keywords": ["ai ethics", "technology", "ai"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 27,
@@ -434,7 +502,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["automation", "future of work", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 28,
@@ -449,7 +519,9 @@
 		"readTime": "6 min read",
 		"bookmark": false,
 		"keywords": ["digital marketing", "business", "internet"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 29,
@@ -464,7 +536,9 @@
 		"readTime": "7 min read",
 		"bookmark": false,
 		"keywords": ["microservices", "software architecture", "technology"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  },
 	  {
 		"id": 30,
@@ -479,7 +553,9 @@
 		"readTime": "8 min read",
 		"bookmark": false,
 		"keywords": ["healthcare", "technology", "innovation"],
-		"editorFavorite":false
+		"editorFavorite":false,
+		"liked": false,
+		"content": "My world is not good"
 	  }
 	]
 }

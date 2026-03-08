@@ -11,5 +11,7 @@ export interface Article {
   readTime:string
   bookmark:boolean
   keywords: string[],
-  editorFavorite:boolean
+  editorFavorite:boolean,
+  content: string;
+  liked: boolean;
 }
