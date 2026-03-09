@@ -1,0 +1,57 @@
+@if (author) {
+  <div class="author-profile-page">
+    <div class="profile-container">
+      <div class="top-bar">
+        <button class="back-btn" type="button" (click)="goBack()">←</button>
+        <h2>Author Profile</h2>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-header">
+          <img
+            [src]="author.image"
+            [alt]="author.name"
+            class="profile-avatar"
+          />
+
+          <div class="profile-main-info">
+            <h1>{{ author.name }}</h1>
+            <p class="profile-domain">{{ author.domain }}</p>
+          </div>
+        </div>
+
+        <div class="profile-section">
+          <h3>About</h3>
+          <p>{{ author.bio }}</p>
+        </div>
+
+        <div class="profile-details-grid">
+          <div class="detail-card">
+            <label>Author ID</label>
+            <div>{{ author.id }}</div>
+          </div>
+
+          <div class="detail-card">
+            <label>Email</label>
+            <div>{{ author.email }}</div>
+          </div>
+
+          <div class="detail-card">
+            <label>User Type</label>
+            <div class="capitalize">{{ author.userType }}</div>
+          </div>
+
+          <div class="detail-card">
+            <label>Password</label>
+            <div>{{ maskedPassword }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="empty-profile-state">
+    <h2>No author profile found</h2>
+    <p>Please log in as an author to view this page.</p>
+  </div>
+}

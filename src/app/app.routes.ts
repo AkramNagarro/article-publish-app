@@ -4,6 +4,7 @@ import { authGuard } from './auth-guard';
 import { Home } from './home/home';
 import { AuthorDirectory } from './components/author-directory/author-directory';
 import { ArticleDetails } from './components/article-details/article-details';
+import { AuthorProfile } from './components/author-profile/author-profile';
 
 export const routes: Routes = [
   
@@ -11,6 +12,7 @@ export const routes: Routes = [
 
   {
     path: 'home',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./home/home').then(m => m.Home),
   },
@@ -31,6 +33,11 @@ export const routes: Routes = [
   {
     path: 'article-details/:id',
     component: ArticleDetails
+  },
+  
+  {
+    path: 'author-profile',
+    component: AuthorProfile
   },
 
   { path: '', redirectTo: 'login', pathMatch: 'full' },

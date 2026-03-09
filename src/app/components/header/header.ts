@@ -27,4 +27,8 @@ export class Header {
       queryParams: { search: keyword }
     });
   }
+
+  goToProfile(): void {
+    this.router.navigate(['/author-profile']);
+  }
 }

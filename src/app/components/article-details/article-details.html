@@ -2,7 +2,6 @@
   @if (vm) {
     <div class="article-details-page">
       <div class="article-details-container">
-
         <div class="top-bar">
           <button class="back-btn" type="button" (click)="goBack()">
             ←
@@ -11,8 +10,6 @@
 
         <div class="article-layout">
           <div class="article-main">
-
-            <!-- KEYWORDS + DATE -->
             <div class="article-top-meta">
               @if (vm.article.likes > 2000) {
                 <span class="top-pill">Popular</span>
@@ -27,12 +24,10 @@
               </span>
             </div>
 
-            <!-- TITLE -->
             <h1 class="article-title">
               {{ vm.article.title }}
             </h1>
 
-            <!-- AUTHOR -->
             <div class="author-strip">
               <img
                 [src]="vm.author?.image || vm.article.authorImage"
@@ -51,39 +46,46 @@
               </div>
             </div>
 
-            <!-- STATS -->
             <div class="stats-row">
-            <div class="stats-left">
-                <span>👁 {{ vm.article.views }}</span>
+              <div class="stats-left">
+                <span class="metric-item">👁 {{ vm.article.views }}</span>
 
                 <button
-                    type="button"
-                    class="icon-btn like-btn"
-                    [class.active]="vm.article.liked"
-                    (click)="toggleLike(vm.article)"
-                    >
-                    <i class="material-icons">
-                        {{ vm.article.liked ? 'favorite' : 'favorite_border' }}
-                    </i>
-                    {{ vm.article.likes }}
-                </button>
-            </div>
-
-            <div class="stats-right">
-                <button
-                type="button"
-                class="icon-btn bookmark-btn"
-                [class.active]="vm.article.bookmark"
-                (click)="toggleBookmark(vm.article)"
+                  type="button"
+                  class="icon-btn like-btn"
+                  [class.active]="vm.article.liked"
+                  (click)="toggleLike(vm.article)"
                 >
-                <i class="material-icons">
-                    {{ vm.article.bookmark ? 'bookmark' : 'bookmark_border' }}
-                </i>
+                  <i class="material-icons">
+                    {{ vm.article.liked ? 'favorite' : 'favorite_border' }}
+                  </i>
+                  <span>{{ vm.article.likes }}</span>
                 </button>
-            </div>
+
+                <button
+                  type="button"
+                  class="icon-btn comment-btn"
+                  (click)="openComments()"
+                >
+                  <i class="material-icons">mode_comment</i>
+                  <span>{{ totalCommentCount }}</span>
+                </button>
+              </div>
+
+              <div class="stats-right">
+                <button
+                  type="button"
+                  class="icon-btn bookmark-btn"
+                  [class.active]="vm.article.bookmark"
+                  (click)="toggleBookmark(vm.article)"
+                >
+                  <i class="material-icons">
+                    {{ vm.article.bookmark ? 'bookmark' : 'bookmark_border' }}
+                  </i>
+                </button>
+              </div>
             </div>
 
-            <!-- IMAGE -->
             <div class="hero-image-wrap">
               <img
                 [src]="vm.article.thumbnail"
@@ -92,7 +94,6 @@
               />
             </div>
 
-            <!-- CONTENT -->
             <div class="article-content">
               <p>{{ vm.article.description }}</p>
 
@@ -101,179 +102,366 @@
               }
             </div>
 
-            <!-- AUTHOR SPOTLIGHT + MORE FROM AUTHOR -->
             @if (vm.author && vm.authorArticleSlides.length > 0) {
-                <div class="author-showcase">
+              <div class="author-showcase">
+                <div class="author-showcase-header">
+                  <div class="author-showcase-profile">
+                    <img
+                      [src]="vm.author.image"
+                      [alt]="vm.author.name"
+                      class="author-showcase-avatar"
+                    />
 
-                    <div class="author-showcase-header">
-                    <div class="author-showcase-profile">
-                        <img
-                        [src]="vm.author.image"
-                        [alt]="vm.author.name"
-                        class="author-showcase-avatar"
-                        />
-
-                        <div class="author-showcase-content">
-                        <span class="author-showcase-label">Writer spotlight</span>
-                        <h3>{{ vm.author.name }}</h3>
-                        <p>{{ vm.author.bio }}</p>
-                        </div>
+                    <div class="author-showcase-content">
+                      <span class="author-showcase-label">Writer spotlight</span>
+                      <h3>{{ vm.author.name }}</h3>
+                      <p>{{ vm.author.bio }}</p>
                     </div>
-                    </div>
-
-                    <!-- SECTION TITLE -->
-
-                    <div class="carousel-section-head">
-                    <h3>More from {{ vm.author.name }}</h3>
-
-                    @if (vm.authorArticleSlides.length > 1) {
-                        <div class="carousel-controls">
-
-                        <button
-                            type="button"
-                            class="carousel-arrow"
-                            (click)="prevAuthorSlide(vm.authorArticleSlides.length)">
-                            ❮
-                        </button>
-
-                        <button
-                            type="button"
-                            class="carousel-arrow"
-                            (click)="nextAuthorSlide(vm.authorArticleSlides.length)">
-                            ❯
-                        </button>
-
-                        </div>
-                    }
-                    </div>
-
-                    <!-- GRID SAME AS RELATED ARTICLES -->
-
-                    <div class="related-carousel-wrap">
-
-                    <div class="related-grid">
-
-                        @for (article of vm.authorArticleSlides[currentAuthorSlide]; track article.id) {
-
-                        <div
-                            class="related-card"
-                            (click)="openArticle(article.id)"
-                        >
-
-                            <div class="related-card-image">
-                            <img
-                                [src]="article.thumbnail"
-                                [alt]="article.title"
-                            />
-                            </div>
-
-                            <div class="related-card-body">
-
-                            <h4>{{ article.title }}</h4>
-
-                            </div>
-
-                        </div>
-
-                        }
-
-                    </div>
-
-                    <!-- DOTS -->
-
-                    @if (vm.authorArticleSlides.length > 1) {
-
-                        <div class="carousel-dots">
-
-                        @for (slide of vm.authorArticleSlides; track $index; let i = $index) {
-
-                            <span
-                            class="carousel-dot"
-                            [class.active]="i === currentAuthorSlide"
-                            (click)="goToAuthorSlide(i)">
-                            </span>
-
-                        }
-
-                        </div>
-
-                    }
-
-                    </div>
-
+                  </div>
                 </div>
+
+                <div class="carousel-section-head">
+                  <h3>More from {{ vm.author.name }}</h3>
+
+                  @if (vm.authorArticleSlides.length > 1) {
+                    <div class="carousel-controls">
+                      <button
+                        type="button"
+                        class="carousel-arrow"
+                        (click)="prevAuthorSlide(vm.authorArticleSlides.length)"
+                      >
+                        ❮
+                      </button>
+
+                      <button
+                        type="button"
+                        class="carousel-arrow"
+                        (click)="nextAuthorSlide(vm.authorArticleSlides.length)"
+                      >
+                        ❯
+                      </button>
+                    </div>
+                  }
+                </div>
+
+                <div class="related-carousel-wrap">
+                  <div class="related-grid">
+                    @for (article of vm.authorArticleSlides[currentAuthorSlide]; track article.id) {
+                      <div
+                        class="related-card"
+                        (click)="openArticle(article.id)"
+                      >
+                        <div class="related-card-image">
+                          <img
+                            [src]="article.thumbnail"
+                            [alt]="article.title"
+                          />
+                        </div>
+
+                        <div class="related-card-body">
+                          <h4>{{ article.title }}</h4>
+                        </div>
+                      </div>
+                    }
+                  </div>
+
+                  @if (vm.authorArticleSlides.length > 1) {
+                    <div class="carousel-dots">
+                      @for (slide of vm.authorArticleSlides; track $index; let i = $index) {
+                        <span
+                          class="carousel-dot"
+                          [class.active]="i === currentAuthorSlide"
+                          (click)="goToAuthorSlide(i)"
+                        ></span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
             }
+
             @if (vm.relatedArticleSlides.length > 0) {
-                <div class="info-section">
-                    <div class="carousel-section-head">
-                    <h3>Related articles</h3>
+              <div class="info-section">
+                <div class="carousel-section-head">
+                  <h3>Related articles</h3>
 
-                    @if (vm.relatedArticleSlides.length > 1) {
-                        <div class="carousel-controls">
-                        <button
-                            type="button"
-                            class="carousel-arrow"
-                            (click)="prevRelatedSlide(vm.relatedArticleSlides.length)">
-                            ❮
-                        </button>
+                  @if (vm.relatedArticleSlides.length > 1) {
+                    <div class="carousel-controls">
+                      <button
+                        type="button"
+                        class="carousel-arrow"
+                        (click)="prevRelatedSlide(vm.relatedArticleSlides.length)"
+                      >
+                        ❮
+                      </button>
 
-                        <button
-                            type="button"
-                            class="carousel-arrow"
-                            (click)="nextRelatedSlide(vm.relatedArticleSlides.length)">
-                            ❯
-                        </button>
-                        </div>
-                    }
+                      <button
+                        type="button"
+                        class="carousel-arrow"
+                        (click)="nextRelatedSlide(vm.relatedArticleSlides.length)"
+                      >
+                        ❯
+                      </button>
                     </div>
-
-                    <div class="related-carousel-wrap">
-                    <div class="related-grid">
-                        @for (article of vm.relatedArticleSlides[currentRelatedSlide]; track article.id) {
-                        <div
-                            class="related-card"
-                            (click)="openArticle(article.id)"
-                        >
-                            <div class="related-card-image">
-                            <img
-                                [src]="article.thumbnail"
-                                [alt]="article.title"
-                            />
-                            </div>
-
-                            <div class="related-card-body">
-                            <div class="recommend-keywords">
-                                @for (keyword of article.matchedKeywords; track keyword) {
-                                <span class="recommend-keyword">
-                                    {{ keyword }}
-                                </span>
-                                }
-                            </div>
-
-                            <h4>{{ article.title }}</h4>
-                            </div>
-                        </div>
-                        }
-                    </div>
-
-                    @if (vm.relatedArticleSlides.length > 1) {
-                        <div class="carousel-dots">
-                        @for (slide of vm.relatedArticleSlides; track $index; let i = $index) {
-                            <span
-                            class="carousel-dot"
-                            [class.active]="i === currentRelatedSlide"
-                            (click)="goToRelatedSlide(i)">
-                            </span>
-                        }
-                        </div>
-                    }
-                    </div>
+                  }
                 </div>
-            }
 
+                <div class="related-carousel-wrap">
+                  <div class="related-grid">
+                    @for (article of vm.relatedArticleSlides[currentRelatedSlide]; track article.id) {
+                      <div
+                        class="related-card"
+                        (click)="openArticle(article.id)"
+                      >
+                        <div class="related-card-image">
+                          <img
+                            [src]="article.thumbnail"
+                            [alt]="article.title"
+                          />
+                        </div>
+
+                        <div class="related-card-body">
+                          <div class="recommend-keywords">
+                            @for (keyword of article.matchedKeywords; track keyword) {
+                              <span class="recommend-keyword">{{ keyword }}</span>
+                            }
+                          </div>
+
+                          <h4>{{ article.title }}</h4>
+                        </div>
+                      </div>
+                    }
+                  </div>
+
+                  @if (vm.relatedArticleSlides.length > 1) {
+                    <div class="carousel-dots">
+                      @for (slide of vm.relatedArticleSlides; track $index; let i = $index) {
+                        <span
+                          class="carousel-dot"
+                          [class.active]="i === currentRelatedSlide"
+                          (click)="goToRelatedSlide(i)"
+                        ></span>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      @if (isCommentDrawerOpen) {
+        <div class="comment-overlay" (click)="closeComments()"></div>
+      }
+
+      <div class="comment-drawer" [class.open]="isCommentDrawerOpen">
+        <div class="comment-header">
+          <h2>Comments ({{ totalCommentCount | number }})</h2>
+          <button type="button" class="close-btn" (click)="closeComments()">×</button>
+        </div>
+
+        <div class="comment-composer">
+          <div class="comment-user-avatar">
+            <img
+              [src]="currentUser.image"
+              [alt]="currentUser.name"
+              class="composer-avatar"
+            />
+          </div>
+
+          <div class="composer-box">
+            <textarea
+              [(ngModel)]="newCommentText"
+              placeholder="Write a comment..."
+              rows="3"
+            ></textarea>
+
+            <div class="composer-toolbar">
+              <div class="toolbar-left">
+              </div>
+
+              <div class="button-group">
+                <button
+                  type="button"
+                  class="cancel-btn"
+                  (click)="newCommentText = ''"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  class="post-btn"
+                  (click)="submitComment(vm.article)"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
+        <div class="sort-row sort-row-only-dropdown">
+            <select
+                class="sort-select"
+                [ngModel]="commentSort"
+                (ngModelChange)="changeCommentSort($event)"
+            >
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="most-liked">Most liked</option>
+            </select>
+            </div>
+
+        <div class="comment-list">
+          @for (comment of comments; track trackByCommentId($index, comment)) {
+            <div class="comment-card">
+              <div class="comment-top">
+                <div class="comment-small-avatar">
+                  <img
+                    [src]="comment.userImage"
+                    [alt]="comment.userName"
+                    class="comment-avatar"
+                  />
+                </div>
+
+                <div class="comment-meta">
+                  <div class="meta-line">
+                    <span class="comment-name">{{ comment.userName }}</span>
+
+                    @if (comment.userType === 'author') {
+                      <span class="author-badge">Author</span>
+                    }
+
+                    <span class="comment-time">
+                      {{ comment.createdAt | date:'MMM d, y • h:mm a' }}
+                    </span>
+                  </div>
+
+                  <p class="comment-message">{{ comment.message }}</p>
+
+                  <div class="comment-actions">
+                    <button
+                      type="button"
+                      class="comment-like-box"
+                      (click)="likeComment(comment, vm.article.id)"
+                    >
+                      <i class="material-icons">thumb_up</i>
+                      <span>{{ comment.likes || 0 }}</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="text-action-btn"
+                      (click)="toggleReplyBox(comment)"
+                    >
+                      {{ comment.showReplyBox ? 'Cancel' : 'Reply' }}
+                    </button>
+
+                    @if (comment.replies.length > 0) {
+                      <span class="reply-count">
+                        {{ comment.replies.length }}
+                        {{ comment.replies.length === 1 ? 'reply' : 'replies' }}
+                      </span>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              @if (comment.showReplyBox) {
+                <div class="reply-editor">
+                  <div class="comment-small-avatar">
+                    <img
+                      [src]="currentUser.image"
+                      [alt]="currentUser.name"
+                      class="reply-avatar"
+                    />
+                  </div>
+
+                  <div class="reply-editor-box">
+                    <textarea
+                      [(ngModel)]="comment.replyText"
+                      rows="2"
+                      placeholder="Write a reply..."
+                    ></textarea>
+
+                    <div class="reply-editor-actions">
+                      <button
+                        type="button"
+                        class="cancel-btn"
+                        (click)="toggleReplyBox(comment)"
+                      >
+                        Cancel
+                      </button>
+
+                      <button
+                        type="button"
+                        class="post-btn"
+                        (click)="submitReply(comment, vm.article)"
+                      >
+                        Reply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              @if (comment.replies.length > 0) {
+                <div class="replies">
+                  @for (reply of comment.replies; track trackByCommentId($index, reply)) {
+                    <div class="reply-card">
+                      <div class="reply-highlight-strip"></div>
+
+                      <div class="reply-inner">
+                        <div class="comment-small-avatar">
+                          <img
+                            [src]="reply.userImage"
+                            [alt]="reply.userName"
+                            class="comment-avatar"
+                          />
+                        </div>
+
+                        <div class="comment-meta">
+                          <div class="meta-line">
+                            <span class="comment-name">{{ reply.userName }}</span>
+
+                            @if (reply.userType === 'author') {
+                              <span class="author-badge">Author</span>
+                            }
+
+                            <span class="comment-time">
+                              {{ reply.createdAt | date:'MMM d, y • h:mm a' }}
+                            </span>
+                          </div>
+
+                          <p class="comment-message">{{ reply.message }}</p>
+
+                          <div class="comment-actions">
+                            <button
+                              type="button"
+                              class="comment-like-box"
+                              (click)="likeComment(reply,vm.article.id)"
+                            >
+                              <i class="material-icons">thumb_up</i>
+                              <span>{{ reply.likes || 0 }}</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+
+          @if (comments.length === 0) {
+            <div class="empty-comments">
+              <p>No comments yet. Start the conversation.</p>
+            </div>
+          }
+        </div>
       </div>
     </div>
   } @else {
