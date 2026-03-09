@@ -1,46 +1,45 @@
 import { Routes } from '@angular/router';
-import { Login } from './login/login';
 import { authGuard } from './auth-guard';
 import { Home } from './home/home';
-import { AuthorDirectory } from './components/author-directory/author-directory';
-import { ArticleDetails } from './components/article-details/article-details';
+import { ReaderLoginComponent } from './components/reader-login/reader-login';
+import { AuthorLoginComponent } from './components/author-login/author-login';
 import { AuthorProfile } from './components/author-profile/author-profile';
+import { ArticleDetails } from './components/article-details/article-details';
 
 export const routes: Routes = [
-  
-  { path: 'login', component: Login },
+  {
+    path: 'reader-login',
+    component: ReaderLoginComponent
+  },
+  {
+    path: 'author-login',
+    component: AuthorLoginComponent
+  },
 
   {
     path: 'home',
-    canActivate: [authGuard],
-    loadComponent: () =>
-      import('./home/home').then(m => m.Home),
+    component: Home,
+    canActivate: [authGuard]
   },
-
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-
-  { path: 'articles', component: Home },
-
-  {
-    path: 'authors',
-    component: AuthorDirectory
+    path: 'author-profile',
+    component: AuthorProfile,
+    canActivate: [authGuard]
   },
 
   {
     path: 'article-details/:id',
-    component: ArticleDetails
+    component: ArticleDetails,
+    canActivate: [authGuard]
   },
-  
+
   {
-    path: 'author-profile',
-    component: AuthorProfile
+    path: '',
+    redirectTo: 'reader-login',
+    pathMatch: 'full'
   },
-
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-
-  { path: '**', redirectTo: 'login' }
+  {
+    path: '**',
+    redirectTo: 'reader-login'
+  }
 ];

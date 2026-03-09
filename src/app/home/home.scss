@@ -285,3 +285,11 @@
 .like-btn.active i {
   color: #e63946;
 }
+
+.clickable-title {
+  cursor: pointer;
+}
+
+.clickable-title:hover {
+  text-decoration: underline;
+}

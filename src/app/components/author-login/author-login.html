@@ -1,0 +1,18 @@
+<div class="login-page">
+  <div class="login-card">
+    <h1>Author Login</h1>
+    <p>Sign in to publish and manage articles</p>
+
+    @if (errorMessage) {
+      <div class="error-box">{{ errorMessage }}</div>
+    }
+
+    <button class="social-btn" (click)="loginWithGoogle()" [disabled]="isLoading">
+      Continue with Google
+    </button>
+
+    <button class="social-btn facebook-btn" (click)="loginWithFacebook()" [disabled]="isLoading">
+      Continue with Facebook
+    </button>
+  </div>
+</div>

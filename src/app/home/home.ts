@@ -182,4 +182,8 @@ export class Home {
       error: (error) => console.error('Failed to update bookmark', error)
     });
   }
+
+  goToArticleDetails(article: Article): void {
+    this.router.navigate(['/article-details', article.id]);
+  }
 }

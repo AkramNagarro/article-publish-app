@@ -16,7 +16,13 @@
 
           <span class="tag">POPULAR</span>
 
-          <h2>
+          <h2
+            class="clickable-title"
+            role="button"
+            tabindex="0"
+            (click)="goToArticleDetails(featuredArticles[currentSlide])"
+            (keydown.enter)="goToArticleDetails(featuredArticles[currentSlide])"
+          >
             {{ featuredArticles[currentSlide].title }}
           </h2>
 
@@ -101,7 +107,15 @@
 
         <div class="content">
 
-          <h3>{{ article.title }}</h3>
+          <h3
+            class="clickable-title"
+            role="button"
+            tabindex="0"
+            (click)="goToArticleDetails(article)"
+            (keydown.enter)="goToArticleDetails(article)"
+          >
+            {{ article.title }}
+          </h3>
 
           <p>{{ article.description }}</p>
 

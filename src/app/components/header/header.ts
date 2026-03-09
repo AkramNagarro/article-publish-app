@@ -1,34 +1,82 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
+import { AuthService, AppLoggedInUser } from '../../services/auth';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.html',
-  imports: [FormsModule],
   styleUrls: ['./header.scss']
 })
-export class Header {
-  searchText = '';
+export class Header implements OnInit, OnDestroy {
+  isLoggedIn = false;
+  loggedInUser: AppLoggedInUser | null = null;
+  isLoggingOut = false;
 
-  constructor(private router: Router) {}
+  private destroy$ = new Subject<void>();
 
-  search() {
-    const keyword = this.searchText.trim();
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
-    // empty search -> go to home page
-    if (!keyword) {
-      this.router.navigate(['/home']);
-      return;
+  ngOnInit(): void {
+    this.authService.currentUser$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user) => {
+        this.loggedInUser = user;
+        this.isLoggedIn = !!user;
+      });
+  }
+
+  async logout(): Promise<void> {
+    if (this.isLoggingOut) return;
+
+    this.isLoggingOut = true;
+
+    try {
+      await this.authService.logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      this.isLoggedIn = false;
+      this.loggedInUser = null;
+      window.location.href = '/reader-login';
     }
+  }
 
-    // search with keyword -> go to home with query param
-    this.router.navigate(['/home'], {
-      queryParams: { search: keyword }
-    });
+  goHome(): void {
+    this.router.navigate(['/home']);
+  }
+
+  goToRegister(): void {
+    this.router.navigate(['/register']);
+  }
+
+  goToReaderLogin(): void {
+    this.router.navigate(['/reader-login']);
+  }
+
+  goToAuthorLogin(): void {
+    this.router.navigate(['/author-login']);
+  }
+
+  goToAuthors(): void {
+    this.router.navigate(['/authors']);
   }
 
   goToProfile(): void {
-    this.router.navigate(['/author-profile']);
+    if (!this.loggedInUser) return;
+
+    if (this.loggedInUser.userType === 'author') {
+      this.router.navigate(['/author-profile']);
+    } else {
+      this.router.navigate(['/reader-profile']);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

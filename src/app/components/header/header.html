@@ -1,36 +1,37 @@
 <header class="header">
-
   <div class="header-container">
 
-    <!-- SEARCH -->
-    <div class="search-wrapper">
-
-        <input
-            type="text"
-            placeholder="Search..."
-            [(ngModel)]="searchText"
-            (keyup.enter)="search()"
-        />
-
-        <button
-            type="button"
-            class="search-btn"
-            (click)="search()"
-        >
-            🔍
-        </button>
-
+    <!-- LEFT : APP TITLE -->
+    <div class="left-section">
+      <h1 class="app-title" (click)="goHome()">Article-Publish-App</h1>
+      <p class="app-subtitle">
+        Register as author to publish your article
+      </p>
     </div>
 
-    <!-- RIGHT SECTION -->
+    <!-- RIGHT : AUTH BUTTONS -->
     <div class="right-section">
 
-      <div class="avatar" (click)="goToProfile()">
-        A
-      </div>
+      @if (isLoggedIn) {
+        <button
+            class="auth-btn logout-btn"
+            (click)="logout()"
+            [disabled]="isLoggingOut"
+            >
+            {{ isLoggingOut ? 'Logging out...' : 'Logout' }}
+        </button>
+      } @else {
+        <button class="auth-btn" (click)="goToReaderLogin()">
+          Reader Login
+        </button>
+
+        <button class="auth-btn" (click)="goToAuthorLogin()">
+          Author Login
+        </button>
+
+      }
 
     </div>
 
   </div>
-
 </header>
