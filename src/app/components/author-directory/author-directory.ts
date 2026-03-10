@@ -126,4 +126,8 @@ export class AuthorDirectory implements OnInit {
       })
       .sort((a, b) => (b.totalViews ?? 0) - (a.totalViews ?? 0));
   }
+
+  goToArticleDetails(article: Article): void {
+    this.router.navigate(['/article-details', article.id]);
+  }
 }

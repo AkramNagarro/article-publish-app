@@ -1,0 +1,355 @@
+<div class="editor-page">
+  <header class="publish-header">
+    <div class="publish-header-left">
+        <button
+            class="new-draft-btn"
+            type="button"
+            (click)="startNewDraft()">
+            Draft a new article
+        </button>
+
+        <div class="version-history-wrap" (click)="stopDropdownClose($event)">
+            <button class="version-history-btn" type="button" (click)="toggleVersionHistory($event)">
+            Version history
+            <span class="caret">▼</span>
+            </button>
+
+            @if (showVersionHistory) {
+            <div class="version-history-dropdown">
+                @if (drafts.length === 0) {
+                <div class="version-empty">No drafts available</div>
+                } @else {
+                @for (draft of drafts; track trackDraft($index, draft)) {
+                    <div class="version-item">
+                    <div class="version-item-content">
+                        <div class="version-title">
+                        {{ draft.title || 'Untitled draft' }}
+                        </div>
+                        <div class="version-meta">
+                        {{ draft.category || 'No category' }} •
+                        {{ draft.updatedAt | date:'medium' }}
+                        </div>
+                    </div>
+
+                    <button
+                        class="version-edit-btn"
+                        type="button"
+                        title="Edit draft"
+                        (click)="loadDraftForEdit(draft)">
+                        ✎
+                    </button>
+                    </div>
+                }
+                }
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="publish-header-right">
+      <button
+        class="header-btn preview-btn"
+        type="button"
+        [disabled]="!isPreviewEnabled"
+        [class.disabled]="!isPreviewEnabled"
+        (click)="openPreview()"
+        >
+        Preview
+    </button>
+
+      <button
+        class="header-btn publish-btn"
+        type="button"
+        (click)="publishArticle()"
+        [disabled]="isPublishing">
+        {{ isPublishing ? 'Publishing...' : 'Publish' }}
+      </button>
+
+    </div>
+  </header>
+
+  <div class="editor-toolbar-shell">
+    <div class="editor-toolbar-inner">
+      <button class="back-circle-btn" type="button" (click)="goBack()">←</button>
+
+      <div class="editor-actions-placeholder">
+        Rich editor enabled
+      </div>
+    </div>
+  </div>
+
+  <div class="editor-main-layout">
+    <section class="editor-writing-surface">
+      <div class="writing-inner">
+        <div class="thumbnail-label-row">
+          <span class="thumbnail-label">🖼 Add thumbnail</span>
+        </div>
+
+        <input
+          type="text"
+          [(ngModel)]="editorForm.thumbnail"
+          name="thumbnail"
+          class="thumbnail-url-input"
+          placeholder="Paste thumbnail image URL"
+        />
+
+        @if (editorForm.thumbnail) {
+          <div class="hero-preview">
+            <img
+              [src]="editorForm.thumbnail"
+              alt="Thumbnail preview"
+              (error)="previewImageError($event)"
+            />
+          </div>
+        }
+
+        <div class="editor-block">
+            <label class="editor-label">Title</label>
+
+            <input
+                type="text"
+                [(ngModel)]="editorForm.title"
+                name="title"
+                class="title-input-box"
+                placeholder="Title"
+            />
+        </div>
+
+        <div class="editor-meta-row">
+          <select
+            [(ngModel)]="editorForm.category"
+            name="category"
+            class="category-dropdown"
+          >
+            <option value="">Select categories</option>
+            @for (category of categories; track category) {
+              <option [value]="category">{{ category }}</option>
+            }
+          </select>
+
+        </div>
+
+        <div class="editor-block">
+          <label class="editor-label">Short description</label>
+          <textarea
+            [(ngModel)]="editorForm.description"
+            name="description"
+            rows="5"
+            class="description-textarea"
+            placeholder="Write a brief description of your article..."
+          ></textarea>
+        </div>
+
+        <div class="editor-block">
+          <label class="editor-label">Keyword</label>
+
+          <div class="keyword-row">
+            <input
+              type="text"
+              [(ngModel)]="keywordInput"
+              name="keywordInput"
+              class="keyword-input"
+              placeholder="Add keyword"
+              (keydown.enter)="$event.preventDefault(); addKeyword()"
+            />
+
+            <button class="keyword-add-btn" type="button" (click)="addKeyword()">
+              Add
+            </button>
+          </div>
+
+          @if (editorForm.keywords.length > 0) {
+            <div class="keyword-chip-row">
+              @for (keyword of editorForm.keywords; track keyword; let i = $index) {
+                <span class="keyword-chip">
+                  {{ keyword }}
+                  <button type="button" (click)="removeKeyword(i)">×</button>
+                </span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="editor-block">
+          <label class="editor-label">Article content</label>
+
+          <quill-editor
+            [(ngModel)]="editorForm.content"
+            name="content"
+            [modules]="quillModules"
+            class="article-quill"
+            placeholder="Start writing your story..."
+          >
+          </quill-editor>
+        </div>
+
+        <div class="editor-footer-actions">
+          <button
+            class="save-draft-action"
+            type="button"
+            (click)="saveDraft()"
+            [disabled]="isSaving"
+          >
+            {{ isSaving ? 'Saving...' : 'Save Draft' }}
+          </button>
+
+          <button
+            class="publish-action"
+            type="button"
+            (click)="publishArticle()"
+            [disabled]="isPublishing"
+          >
+            {{ isPublishing ? 'Publishing...' : 'Publish Article' }}
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="editor-right-panel">
+      <div class="info-card">
+        <h3>Draft Info</h3>
+
+        <div class="info-row">
+          <span>Status</span>
+          <strong>Draft</strong>
+        </div>
+
+        <div class="info-row">
+          <span>Author</span>
+          <strong>{{ editorForm.author || 'Unknown' }}</strong>
+        </div>
+
+        <div class="info-row">
+          <span>Category</span>
+          <strong>{{ editorForm.category || '—' }}</strong>
+        </div>
+
+        <div class="info-row">
+          <span>Keywords</span>
+          <strong>{{ editorForm.keywords.length }}</strong>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Content Support</h3>
+        <p>
+          Toolbar supports bold, italic, underline, lists, links, images, videos
+          and formatting cleanup.
+        </p>
+      </div>
+    </aside>
+  </div>
+</div>
+
+@if (isPreviewModalOpen && previewArticle) {
+  <div class="preview-modal-overlay" (click)="closePreview()"></div>
+
+  <div class="preview-modal">
+    <div class="preview-modal-header">
+      <h2>Article Preview</h2>
+      <button type="button" class="preview-close-btn" (click)="closePreview()">×</button>
+    </div>
+
+    <div class="preview-modal-body">
+      <div class="article-details-page preview-mode">
+        <div class="article-details-container">
+          <div class="top-bar">
+            <button class="back-btn" type="button" (click)="closePreview()">
+              ←
+            </button>
+          </div>
+
+          <div class="article-layout">
+            <div class="article-main">
+              <div class="article-top-meta">
+                @if (previewArticle.likes > 2000) {
+                  <span class="top-pill">Popular</span>
+                }
+
+                @for (keyword of previewArticle.keywords; track keyword) {
+                  <span class="top-pill dark">{{ keyword }}</span>
+                }
+
+                <span class="publish-date">
+                  {{ previewArticle.publishDate | date:'MMM d, y' }}
+                </span>
+              </div>
+
+              <h1 class="article-title">
+                {{ previewArticle.title }}
+              </h1>
+
+              <div class="author-strip">
+                <img
+                  [src]="previewArticle.authorImage"
+                  [alt]="previewArticle.author"
+                  class="author-avatar"
+                />
+
+                <div class="author-meta">
+                  <div class="author-name-row">
+                    <span class="author-name">{{ previewArticle.author }}</span>
+                  </div>
+
+                  <div class="author-subline">
+                    <span>{{ previewArticle.readTime }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stats-row">
+                <div class="stats-left">
+                  <span class="metric-item">👁 {{ previewArticle.views }}</span>
+
+                  <button
+                    type="button"
+                    class="icon-btn like-btn"
+                    [class.active]="previewArticle.liked"
+                    (click)="togglePreviewLike()"
+                  >
+                    <i class="material-icons">
+                      {{ previewArticle.liked ? 'favorite' : 'favorite_border' }}
+                    </i>
+                    <span>{{ previewArticle.likes }}</span>
+                  </button>
+
+                </div>
+
+                <div class="stats-right">
+                  <button
+                    type="button"
+                    class="icon-btn bookmark-btn"
+                    [class.active]="previewArticle.bookmark"
+                    (click)="togglePreviewBookmark()"
+                  >
+                    <i class="material-icons">
+                      {{ previewArticle.bookmark ? 'bookmark' : 'bookmark_border' }}
+                    </i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="hero-image-wrap">
+                <img
+                  [src]="previewArticle.thumbnail"
+                  [alt]="previewArticle.title"
+                  class="hero-image"
+                />
+              </div>
+
+              <div class="article-content">
+                <p>{{ previewArticle.description }}</p>
+
+                
+
+                @if (previewArticle.content) {
+                  <div class="preview-rich-content" [innerHTML]="decodeHtml(previewArticle.content)"></div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

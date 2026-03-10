@@ -533,4 +533,12 @@ export class ArticleDetails implements OnInit, OnDestroy {
 
     this.comments = updated;
   }
+
+  decodeHtml(content: string): string {
+    if (!content) return '';
+
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = content;
+    return textarea.value;
+  }
 }

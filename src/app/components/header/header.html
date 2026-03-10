@@ -1,36 +1,82 @@
 <header class="header">
   <div class="header-container">
 
-    <!-- LEFT : APP TITLE -->
     <div class="left-section">
-      <h1 class="app-title" (click)="goHome()">Article-Publish-App</h1>
+      <h1
+        class="app-title"
+        role="button"
+        tabindex="0"
+        (click)="goHome()"
+        (keydown.enter)="goHome()"
+      >
+        Article-Publish-App
+      </h1>
+
       <p class="app-subtitle">
         Register as author to publish your article
       </p>
-    </div>
-
-    <!-- RIGHT : AUTH BUTTONS -->
-    <div class="right-section">
 
       @if (isLoggedIn) {
-        <button
+        <div class="search-wrapper">
+          <input
+            type="text"
+            placeholder="Search..."
+            [(ngModel)]="searchText"
+            (keyup.enter)="search()"
+          />
+
+          <button
+            type="button"
+            class="search-btn"
+            (click)="search()"
+          >
+            🔍
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="right-section">
+      @if (isLoggedIn) {
+        <div class="logged-in-section">
+          <button
+            type="button"
+            class="icon-action-btn"
+            (click)="goToAuthors()"
+          >
+            <i class="material-icons">groups</i>
+            <span>Authors</span>
+          </button>
+
+          <button
+            type="button"
+            class="icon-action-btn"
+            (click)="goToProfile()"
+          >
+            <i class="material-icons">person</i>
+            <span>Profile</span>
+          </button>
+
+          <button
+            type="button"
             class="auth-btn logout-btn"
             (click)="logout()"
             [disabled]="isLoggingOut"
-            >
+          >
             {{ isLoggingOut ? 'Logging out...' : 'Logout' }}
-        </button>
+          </button>
+        </div>
       } @else {
-        <button class="auth-btn" (click)="goToReaderLogin()">
-          Reader Login
-        </button>
+        <div class="guest-actions">
+          <button type="button" class="auth-btn" (click)="goToReaderLogin()">
+            Reader Login
+          </button>
 
-        <button class="auth-btn" (click)="goToAuthorLogin()">
-          Author Login
-        </button>
-
+          <button type="button" class="auth-btn" (click)="goToAuthorLogin()">
+            Author Login
+          </button>
+        </div>
       }
-
     </div>
 
   </div>

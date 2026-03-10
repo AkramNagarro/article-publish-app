@@ -1,14 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService, AppLoggedInUser } from '../../services/auth';
 
 @Component({
   selector: 'app-header',
+  standalone: true,
+  imports: [FormsModule],
   templateUrl: './header.html',
   styleUrls: ['./header.scss']
 })
 export class Header implements OnInit, OnDestroy {
+  searchText = '';
   isLoggedIn = false;
   loggedInUser: AppLoggedInUser | null = null;
   isLoggingOut = false;
@@ -26,7 +30,33 @@ export class Header implements OnInit, OnDestroy {
       .subscribe((user) => {
         this.loggedInUser = user;
         this.isLoggedIn = !!user;
+
       });
+  }
+
+  search(): void {
+    if (!this.isLoggedIn) {
+      return;
+    }
+
+    const keyword = this.searchText.trim();
+
+    if (!keyword) {
+      this.router.navigate(['/home']);
+      return;
+    }
+
+    this.router.navigate(['/home'], {
+      queryParams: { search: keyword }
+    });
+  }
+
+  goToProfile(): void {
+    this.router.navigate(['/author-profile']);
+  }
+
+  goToAuthors(): void {
+    this.router.navigate(['/authors']);
   }
 
   async logout(): Promise<void> {
@@ -49,30 +79,12 @@ export class Header implements OnInit, OnDestroy {
     this.router.navigate(['/home']);
   }
 
-  goToRegister(): void {
-    this.router.navigate(['/register']);
-  }
-
   goToReaderLogin(): void {
     this.router.navigate(['/reader-login']);
   }
 
   goToAuthorLogin(): void {
     this.router.navigate(['/author-login']);
-  }
-
-  goToAuthors(): void {
-    this.router.navigate(['/authors']);
-  }
-
-  goToProfile(): void {
-    if (!this.loggedInUser) return;
-
-    if (this.loggedInUser.userType === 'author') {
-      this.router.navigate(['/author-profile']);
-    } else {
-      this.router.navigate(['/reader-profile']);
-    }
   }
 
   ngOnDestroy(): void {

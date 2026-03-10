@@ -3,9 +3,10 @@ import { authGuard } from './auth-guard';
 import { Home } from './home/home';
 import { ReaderLoginComponent } from './components/reader-login/reader-login';
 import { AuthorLoginComponent } from './components/author-login/author-login';
-import { AuthorProfile } from './components/author-profile/author-profile';
 import { ArticleDetails } from './components/article-details/article-details';
-
+import { AuthorDirectory } from './components/author-directory/author-directory';
+import { AuthorProfile } from './components/author-profile/author-profile';
+import { ArticleEditor } from './components/article-editor/article-editor';
 export const routes: Routes = [
   {
     path: 'reader-login',
@@ -26,10 +27,22 @@ export const routes: Routes = [
     component: AuthorProfile,
     canActivate: [authGuard]
   },
+  { path: 'authors', component: AuthorDirectory },
 
   {
     path: 'article-details/:id',
     component: ArticleDetails,
+    canActivate: [authGuard]
+  },
+
+  {
+    path: 'editor',
+    component: ArticleEditor,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'editor/:id',
+    component: ArticleEditor,
     canActivate: [authGuard]
   },
 

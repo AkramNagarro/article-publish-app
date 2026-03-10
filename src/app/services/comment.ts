@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { CommentItem, CommentNode } from '../models/comment.model';
+import { environment } from '../../environments/environment';
 
 export type CommentSortType = 'newest' | 'oldest' | 'most-liked';
 
@@ -9,7 +10,8 @@ export type CommentSortType = 'newest' | 'oldest' | 'most-liked';
   providedIn: 'root'
 })
 export class CommentService {
-  private apiUrl = 'http://localhost:3000/comments';
+  private api = environment.apiUrl;
+  private commentsApi = `${this.api}/comments`;
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +20,7 @@ export class CommentService {
     sort: CommentSortType = 'newest'
   ): Observable<CommentNode[]> {
     return this.http
-      .get<CommentItem[]>(`${this.apiUrl}?articleId=${articleId}`)
+      .get<CommentItem[]>(`${this.commentsApi}?articleId=${articleId}`)
       .pipe(
         map((comments) => this.buildCommentTree(comments)),
         map((comments) => this.sortCommentTree(comments, sort))
@@ -27,16 +29,16 @@ export class CommentService {
 
   getCommentCount(articleId: string): Observable<number> {
     return this.http
-      .get<CommentItem[]>(`${this.apiUrl}?articleId=${articleId}`)
+      .get<CommentItem[]>(`${this.commentsApi}?articleId=${articleId}`)
       .pipe(map((comments) => comments.length));
   }
 
   addComment(comment: CommentItem): Observable<CommentItem> {
-    return this.http.post<CommentItem>(this.apiUrl, comment);
+    return this.http.post<CommentItem>(this.commentsApi, comment);
   }
 
   likeComment(commentId: string, currentLikes: number): Observable<CommentItem> {
-    return this.http.patch<CommentItem>(`${this.apiUrl}/${commentId}`, {
+    return this.http.patch<CommentItem>(`${this.commentsApi}/${commentId}`, {
       likes: currentLikes + 1
     });
   }

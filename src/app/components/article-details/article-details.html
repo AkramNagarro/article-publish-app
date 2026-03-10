@@ -95,11 +95,11 @@
             </div>
 
             <div class="article-content">
-              <p>{{ vm.article.description }}</p>
+                <p>{{ vm.article.description }}</p>
 
-              @if (vm.article.content) {
-                <p>{{ vm.article.content }}</p>
-              }
+                @if (vm.article.content) {
+                    <div class="rich-article-content" [innerHTML]="decodeHtml(vm.article.content)"></div>
+                }
             </div>
 
             @if (vm.author && vm.authorArticleSlides.length > 0) {

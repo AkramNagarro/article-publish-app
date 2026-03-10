@@ -2,7 +2,6 @@
    
 <div class="container">
   <div class="left">
-    <!-- FEATURED CAROUSEL -->
     @if (!searchKeyword && featuredArticles.length > 0 && currentSlide >= 0) {
  
       <div class="carousel">
@@ -77,7 +76,6 @@
 
     }
 
-    <!-- SORT TOOLBAR -->
     <div class="articles-toolbar">
 
       <div class="sort-container">
@@ -100,7 +98,6 @@
 
     </div>
 
-    <!-- ALL ARTICLES -->
     @for (article of articles; track article.id) {
 
       <div class="article-card">
@@ -171,7 +168,6 @@
       </div>
     }
 
-    <!-- PAGINATION -->
     <div class="pagination">
 
       <button (click)="prevPage()" [disabled]="currentPage === 1">
@@ -200,7 +196,7 @@
 
   <div class="right">
 
-    <button class="draft-btn">
+    <button class="draft-btn" type="button" (click)="goToArticleEditor()">
       Draft an article ✏️
     </button>
 

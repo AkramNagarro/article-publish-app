@@ -12,16 +12,16 @@
 }
 
 .right {
-  border-left: 1px solid #eee;
   padding-left: 20px;
+  border-left: 1px solid #eee;
 }
 
 .article-card {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #eee;
-  padding: 20px 0;
   gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee;
 }
 
 .content {
@@ -37,51 +37,50 @@
 }
 
 .draft-btn {
-  background: #444;
-  color: white;
   padding: 10px 20px;
   border: none;
+  background: #444;
+  color: #fff;
   cursor: pointer;
 }
 
-/* CAROUSEL */
 .carousel {
   position: relative;
-  margin-bottom: 40px;
-  border-radius: 16px;
-  overflow: hidden;
   height: 420px;
+  margin-bottom: 40px;
+  overflow: hidden;
+  border-radius: 16px;
   background: #111;
 }
 
 .carousel-img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
 }
 
 .carousel-overlay {
   position: absolute;
-  left: 0;
   right: 0;
   bottom: 0;
-  color: white;
+  left: 0;
+  z-index: 2;
   padding: 24px 24px 56px;
+  color: #fff;
   background: linear-gradient(
     to top,
     rgba(0, 0, 0, 0.82) 0%,
     rgba(0, 0, 0, 0.45) 45%,
     rgba(0, 0, 0, 0.08) 100%
   );
-  z-index: 2;
 }
 
 .carousel-overlay h2 {
   margin: 10px 0 8px;
   font-size: 2rem;
   line-height: 1.2;
-  color: #fff;
+  color: inherit;
 }
 
 .carousel-overlay p {
@@ -89,17 +88,22 @@
   color: rgba(255, 255, 255, 0.92);
 }
 
-.carousel-overlay .meta {
+.meta {
   display: flex;
-  gap: 16px;
+  gap: 15px;
   font-size: 13px;
+  color: #777;
+}
+
+.carousel-overlay .meta {
+  gap: 16px;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .tag {
   display: inline-block;
-  border: 1px solid rgba(255, 255, 255, 0.7);
   padding: 4px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 999px;
   font-size: 12px;
   color: #fff;
@@ -108,16 +112,16 @@
 .arrow {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.45);
-  border: none;
-  color: white;
+  z-index: 3;
   width: 46px;
   height: 46px;
-  cursor: pointer;
-  font-size: 24px;
-  z-index: 3;
+  border: none;
   border-radius: 8px;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .arrow.left {
@@ -130,21 +134,20 @@
 
 .dots {
   position: absolute;
-  left: 50%;
   bottom: 18px;
-  transform: translateX(-50%);
+  left: 50%;
+  z-index: 3;
   display: flex;
   align-items: center;
   gap: 10px;
-  z-index: 3;
+  transform: translateX(-50%);
 }
 
 .dot {
-  height: 10px;
   width: 10px;
-  background: rgba(255, 255, 255, 0.45);
+  height: 10px;
   border-radius: 50%;
-  display: inline-block;
+  background: rgba(255, 255, 255, 0.45);
   cursor: pointer;
   transition: transform 0.2s ease, background 0.2s ease;
 }
@@ -152,14 +155,6 @@
 .dot.active {
   background: #fff;
   transform: scale(1.15);
-}
-
-/* COMMON META */
-.meta {
-  display: flex;
-  gap: 15px;
-  font-size: 13px;
-  color: #777;
 }
 
 .author {
@@ -177,22 +172,22 @@
 
 .pagination {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   margin-top: 30px;
 }
 
 .pagination button {
-  border: 1px solid #ddd;
-  background: white;
   padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: #fff;
   cursor: pointer;
 }
 
 .pagination button.active {
   background: #333;
-  color: white;
+  color: #fff;
 }
 
 .pagination button:disabled {
@@ -214,8 +209,8 @@
 
 .sort-container select {
   padding: 6px 10px;
-  border-radius: 6px;
   border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
 .no-results {
@@ -223,8 +218,6 @@
   color: #666;
   font-size: 16px;
 }
-
-/* KEYWORDS */
 
 .keywords {
   display: flex;
@@ -234,54 +227,43 @@
 }
 
 .keyword-tag {
-  background: #f1f3f5;
-  border: 1px solid #ddd;
   padding: 3px 8px;
-  font-size: 12px;
+  border: 1px solid #ddd;
   border-radius: 4px;
+  background: #f1f3f5;
   color: #444;
+  font-size: 12px;
 }
 
 .icon-btn {
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-  font: inherit;
   display: inline-flex;
   align-items: center;
   gap: 4px;
-}
-
-.heart-btn {
+  padding: 0;
+  border: none;
+  background: transparent;
   color: inherit;
+  font: inherit;
+  cursor: pointer;
 }
 
-.heart-btn.active {
-  color: #e63946;
+.heart-btn,
+.bookmark-btn,
+.like-btn {
+  color: inherit;
 }
 
 .bookmark-btn {
-  color: inherit;
   font-size: 16px;
-}
-
-.bookmark-btn.active {
-  color: #e63946;
-}
-
-.like-btn {
-  color: #000;   /* default black outline heart */
 }
 
 .like-btn i {
   font-size: 20px;
 }
 
-.like-btn.active {
-  color: #e63946;  /* red when liked */
-}
-
+.heart-btn.active,
+.bookmark-btn.active,
+.like-btn.active,
 .like-btn.active i {
   color: #e63946;
 }

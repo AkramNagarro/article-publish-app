@@ -2,7 +2,6 @@
   <div class="author-directory-page">
     <div class="author-directory-container">
 
-      <!-- TOP -->
       <div class="top-section">
         <button class="back-btn" type="button" (click)="goHome()">
           ←
@@ -37,7 +36,6 @@
         </div>
       </div>
 
-        <!-- READER'S CHOICE -->
         @if (!vm.isSearching) {
             <section class="section-block">
                 <div class="section-header">
@@ -55,17 +53,22 @@
                         />
                     </div>
 
-                    <h3>{{ article.title }}</h3>
+                    <h3
+                        class="clickable-title"
+                        role="button"
+                        tabindex="0"
+                        (click)="goToArticleDetails(article)"
+                        (keydown.enter)="goToArticleDetails(article)"
+                    >
+                        {{ article.title }}
+                    </h3>
                     </div>
                 }
                 </div>
             </section>
         }
 
-      <!-- RISING AUTHORS -->
       <section class="section-block">
-
-        <!-- SEARCH RESULT MESSAGE -->
 
         @if (vm.isSearching && vm.filteredAuthors.length > 0) {
 

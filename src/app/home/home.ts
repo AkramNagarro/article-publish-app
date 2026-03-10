@@ -186,4 +186,8 @@ export class Home {
   goToArticleDetails(article: Article): void {
     this.router.navigate(['/article-details', article.id]);
   }
+
+  goToArticleEditor(): void {
+    this.router.navigate(['/editor']); 
+  }
 }
