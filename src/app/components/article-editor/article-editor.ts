@@ -103,7 +103,9 @@ export class ArticleEditor implements OnInit {
       authorId: '',
       status: 'draft',
       createdAt: '',
-      updatedAt: ''
+      updatedAt: '',
+      editorFavorite: false,
+      readTime: ''
     };
   }
 
@@ -140,8 +142,9 @@ export class ArticleEditor implements OnInit {
   loadDrafts(): void {
     this.draftService.getDrafts().subscribe({
       next: (drafts) => {
-        this.drafts = [...drafts].sort((a, b) =>
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        this.drafts = [...drafts].sort(
+          (a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         );
       },
       error: () => {
@@ -158,8 +161,11 @@ export class ArticleEditor implements OnInit {
   loadDraftForEdit(draft: DraftArticle): void {
     this.editorForm = {
       ...draft,
-      keywords: [...(draft.keywords || [])]
+      keywords: [...(draft.keywords || [])],
+      editorFavorite: !!draft.editorFavorite,
+      readTime: draft.readTime || ''
     };
+
     this.draftId = draft.id || null;
     this.keywordInput = '';
     this.showVersionHistory = false;
@@ -198,7 +204,9 @@ export class ArticleEditor implements OnInit {
       author: this.editorForm.author?.trim() || '',
       authorImage: this.editorForm.authorImage?.trim() || '',
       authorId: this.editorForm.authorId?.trim() || '',
-      status: 'draft'
+      status: 'draft',
+      editorFavorite: !!this.editorForm.editorFavorite,
+      readTime: this.editorForm.readTime?.trim() || ''
     };
 
     return JSON.stringify(comparable);
@@ -219,6 +227,20 @@ export class ArticleEditor implements OnInit {
     return `${minutes} min read`;
   }
 
+  private getFinalReadTime(): string {
+    const value = this.editorForm.readTime?.trim() || '';
+
+    if (!value) {
+      return this.calculateReadTime(this.editorForm.content || '');
+    }
+
+    if (/^\d+$/.test(value)) {
+      return `${value} min read`;
+    }
+
+    return value;
+  }
+
   private buildPreviewArticle(): void {
     this.previewArticle = {
       id: this.draftId || 'preview',
@@ -230,10 +252,10 @@ export class ArticleEditor implements OnInit {
       publishDate: new Date().toISOString().split('T')[0],
       likes: 1801,
       views: 4101,
-      readTime: this.calculateReadTime(this.editorForm.content || ''),
+      readTime: this.getFinalReadTime(),
       bookmark: true,
       keywords: [...(this.editorForm.keywords || [])],
-      editorFavorite: false,
+      editorFavorite: !!this.editorForm.editorFavorite,
       liked: true,
       content: this.editorForm.content || ''
     };
@@ -259,7 +281,9 @@ export class ArticleEditor implements OnInit {
       status: 'draft',
       createdAt: this.editorForm.createdAt || now,
       updatedAt: now,
-      keywords: [...(this.editorForm.keywords || [])]
+      keywords: [...(this.editorForm.keywords || [])],
+      editorFavorite: !!this.editorForm.editorFavorite,
+      readTime: this.getFinalReadTime()
     };
 
     const request$ = this.draftId
@@ -269,6 +293,7 @@ export class ArticleEditor implements OnInit {
     request$.subscribe({
       next: (savedDraft) => {
         this.isSaving = false;
+
         this.lastSavedSnapshot = JSON.stringify({
           title: savedDraft.title?.trim() || '',
           thumbnail: savedDraft.thumbnail?.trim() || '',
@@ -279,13 +304,17 @@ export class ArticleEditor implements OnInit {
           author: savedDraft.author?.trim() || '',
           authorImage: savedDraft.authorImage?.trim() || '',
           authorId: savedDraft.authorId?.trim() || '',
-          status: 'draft'
+          status: 'draft',
+          editorFavorite: !!savedDraft.editorFavorite,
+          readTime: savedDraft.readTime?.trim() || ''
         });
 
         this.draftId = savedDraft.id || null;
         this.editorForm = {
           ...savedDraft,
-          keywords: [...(savedDraft.keywords || [])]
+          keywords: [...(savedDraft.keywords || [])],
+          editorFavorite: !!savedDraft.editorFavorite,
+          readTime: savedDraft.readTime || ''
         };
 
         this.isPreviewEnabled = true;
@@ -321,7 +350,11 @@ export class ArticleEditor implements OnInit {
     const publishAfterSave = (draft: DraftArticle) => {
       this.isPublishing = true;
 
-      this.draftService.publishDraft(draft).subscribe({
+      this.draftService.publishDraft({
+        ...draft,
+        editorFavorite: !!draft.editorFavorite,
+        readTime: this.getFinalReadTime()
+      }).subscribe({
         next: (article) => {
           this.isPublishing = false;
           this.loadDrafts();
@@ -342,7 +375,9 @@ export class ArticleEditor implements OnInit {
       status: 'draft',
       createdAt: this.editorForm.createdAt || now,
       updatedAt: now,
-      keywords: [...(this.editorForm.keywords || [])]
+      keywords: [...(this.editorForm.keywords || [])],
+      editorFavorite: !!this.editorForm.editorFavorite,
+      readTime: this.getFinalReadTime()
     };
 
     if (this.draftId) {

@@ -29,6 +29,8 @@ export class Home {
   private page$ = new BehaviorSubject<number>(1);
   private refresh$ = new BehaviorSubject<number>(0);
 
+  isAuthor = false;
+
   constructor(
     private route: ActivatedRoute,
     private articleService: ArticleService,
@@ -36,6 +38,13 @@ export class Home {
   ) {}
 
   ngOnInit() {
+    const rawUser = localStorage.getItem('loggedInUser');
+
+    if (rawUser) {
+      const user = JSON.parse(rawUser);
+      this.isAuthor = user?.userType === 'author';
+    }
+
     this.articles$ = combineLatest([
       this.route.queryParams,
       this.page$,

@@ -196,12 +196,14 @@
 
   <div class="right">
 
-    <button class="draft-btn" type="button" (click)="goToArticleEditor()">
-      Draft an article ✏️
-    </button>
-
+    @if (isAuthor) {
+      <div class="right">
+        <button class="draft-btn" type="button" (click)="goToArticleEditor()">
+          Draft an article ✏️
+        </button>
+      </div>
+    }
   </div>
-
 </div>
 
 }

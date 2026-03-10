@@ -47,10 +47,10 @@ export class DraftService {
       publishDate: new Date().toISOString().split('T')[0],
       likes: 0,
       views: 0,
-      readTime: this.calculateReadTime(draft.content),
+      readTime: this.resolveReadTime(draft.readTime, draft.content),
       bookmark: false,
-      keywords: draft.keywords || [],
-      editorFavorite: false,
+      keywords: [...(draft.keywords || [])],
+      editorFavorite: !!draft.editorFavorite,
       liked: false,
       content: draft.content
     };
@@ -65,7 +65,7 @@ export class DraftService {
   }
 
   private calculateReadTime(content: string): string {
-    const plainText = content
+    const plainText = (content || '')
       .replace(/<[^>]*>/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
@@ -73,5 +73,20 @@ export class DraftService {
     const words = plainText ? plainText.split(' ').length : 0;
     const minutes = Math.max(1, Math.ceil(words / 200));
     return `${minutes} min read`;
+  }
+
+  private resolveReadTime(readTime: string | undefined, content: string): string {
+    const value = (readTime || '').trim();
+
+    if (!value) {
+      return this.calculateReadTime(content || '');
+    }
+
+    const numericOnly = value.match(/^\d+$/);
+    if (numericOnly) {
+      return `${numericOnly[0]} min read`;
+    }
+
+    return value;
   }
 }

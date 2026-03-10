@@ -24,7 +24,7 @@ export class AuthorLoginComponent {
       this.isLoading = true;
       this.errorMessage = '';
       await this.authService.loginWithGoogle('author');
-      this.router.navigate(['/author-profile']);
+      this.router.navigate(['/home']);
     } catch (error: any) {
       this.errorMessage = error?.message || 'Google login failed.';
     } finally {
@@ -37,7 +37,7 @@ export class AuthorLoginComponent {
       this.isLoading = true;
       this.errorMessage = '';
       await this.authService.loginWithFacebook('author');
-      this.router.navigate(['/author-profile']);
+      this.router.navigate(['/home']);
     } catch (error: any) {
       this.errorMessage = error?.message || 'Facebook login failed.';
     } finally {

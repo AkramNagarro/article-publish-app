@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
-interface LoggedInAuthor {
+interface LoggedInUser {
   id: string;
   name: string;
-  image: string;
-  domain: string;
-  bio: string;
-  email: string;
-  password: string;
-  userType: 'author' | 'reader';
+  image?: string;
+  domain?: string;
+  bio?: string;
+  email?: string;
+  password?: string;
+  userType?: 'author' | 'reader';
 }
 
 @Component({
@@ -21,45 +21,47 @@ interface LoggedInAuthor {
   styleUrls: ['./author-profile.scss']
 })
 export class AuthorProfile implements OnInit {
-  author: LoggedInAuthor | null = null;
+  author: LoggedInUser | null = null;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.loadLoggedInAuthor();
+    this.loadLoggedInUser();
   }
 
-  private loadLoggedInAuthor(): void {
+  private loadLoggedInUser(): void {
     try {
-      const storedUser = localStorage.getItem('user');
+      const storedUser =
+        sessionStorage.getItem('loggedInUser') ||
+        localStorage.getItem('loggedInUser') ||
+        sessionStorage.getItem('user') ||
+        localStorage.getItem('user');
 
       if (!storedUser) {
         return;
       }
 
-      const parsedUser = JSON.parse(storedUser) as LoggedInAuthor;
-
-      if (parsedUser.userType !== 'author') {
-        return;
-      }
+      const parsedUser = JSON.parse(storedUser) as LoggedInUser;
 
       this.author = {
-        id: parsedUser.id,
-        name: parsedUser.name,
-        image: parsedUser.image,
-        domain: parsedUser.domain,
-        bio: parsedUser.bio,
-        email: parsedUser.email,
-        password: parsedUser.password,
-        userType: parsedUser.userType
+        id: parsedUser.id || '',
+        name: parsedUser.name || 'Unknown User',
+        image: parsedUser.image || 'https://i.pravatar.cc/400?img=12',
+        domain: parsedUser.domain || 'General',
+        bio: parsedUser.bio || 'No bio added yet.',
+        email: parsedUser.email || '—',
+        password: parsedUser.password || '',
+        userType: parsedUser.userType || 'reader'
       };
     } catch (error) {
-      console.error('Failed to load logged in author', error);
+      console.error('Failed to load logged in user', error);
     }
   }
 
   get maskedPassword(): string {
-    return this.author?.password ? '*'.repeat(this.author.password.length) : '';
+    return this.author?.password
+      ? '*'.repeat(this.author.password.length)
+      : '—';
   }
 
   goBack(): void {

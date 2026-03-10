@@ -887,6 +887,20 @@
   font-family: Consolas, monospace;
 }
 
+.editor-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.editor-checkbox-row input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
 @media (max-width: 1100px) {
   .editor-main-layout {
     grid-template-columns: 1fr;

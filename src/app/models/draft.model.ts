@@ -12,4 +12,6 @@ export interface DraftArticle {
   status: 'draft';
   createdAt: string;
   updatedAt: string;
+  editorFavorite: boolean;
+  readTime: string;
 }

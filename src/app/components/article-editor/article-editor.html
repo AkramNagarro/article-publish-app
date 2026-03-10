@@ -1,49 +1,49 @@
 <div class="editor-page">
   <header class="publish-header">
     <div class="publish-header-left">
-        <button
-            class="new-draft-btn"
-            type="button"
-            (click)="startNewDraft()">
-            Draft a new article
+      <button
+        class="new-draft-btn"
+        type="button"
+        (click)="startNewDraft()">
+        Draft a new article
+      </button>
+
+      <div class="version-history-wrap" (click)="stopDropdownClose($event)">
+        <button class="version-history-btn" type="button" (click)="toggleVersionHistory($event)">
+          Version history
+          <span class="caret">▼</span>
         </button>
 
-        <div class="version-history-wrap" (click)="stopDropdownClose($event)">
-            <button class="version-history-btn" type="button" (click)="toggleVersionHistory($event)">
-            Version history
-            <span class="caret">▼</span>
-            </button>
-
-            @if (showVersionHistory) {
-            <div class="version-history-dropdown">
-                @if (drafts.length === 0) {
-                <div class="version-empty">No drafts available</div>
-                } @else {
-                @for (draft of drafts; track trackDraft($index, draft)) {
-                    <div class="version-item">
-                    <div class="version-item-content">
-                        <div class="version-title">
-                        {{ draft.title || 'Untitled draft' }}
-                        </div>
-                        <div class="version-meta">
-                        {{ draft.category || 'No category' }} •
-                        {{ draft.updatedAt | date:'medium' }}
-                        </div>
+        @if (showVersionHistory) {
+          <div class="version-history-dropdown">
+            @if (drafts.length === 0) {
+              <div class="version-empty">No drafts available</div>
+            } @else {
+              @for (draft of drafts; track trackDraft($index, draft)) {
+                <div class="version-item">
+                  <div class="version-item-content">
+                    <div class="version-title">
+                      {{ draft.title || 'Untitled draft' }}
                     </div>
-
-                    <button
-                        class="version-edit-btn"
-                        type="button"
-                        title="Edit draft"
-                        (click)="loadDraftForEdit(draft)">
-                        ✎
-                    </button>
+                    <div class="version-meta">
+                      {{ draft.category || 'No category' }} •
+                      {{ draft.updatedAt | date:'medium' }}
                     </div>
-                }
-                }
-            </div>
+                  </div>
+
+                  <button
+                    class="version-edit-btn"
+                    type="button"
+                    title="Edit draft"
+                    (click)="loadDraftForEdit(draft)">
+                    ✎
+                  </button>
+                </div>
+              }
             }
-        </div>
+          </div>
+        }
+      </div>
     </div>
 
     <div class="publish-header-right">
@@ -52,10 +52,9 @@
         type="button"
         [disabled]="!isPreviewEnabled"
         [class.disabled]="!isPreviewEnabled"
-        (click)="openPreview()"
-        >
+        (click)="openPreview()">
         Preview
-    </button>
+      </button>
 
       <button
         class="header-btn publish-btn"
@@ -64,7 +63,6 @@
         [disabled]="isPublishing">
         {{ isPublishing ? 'Publishing...' : 'Publish' }}
       </button>
-
     </div>
   </header>
 
@@ -104,29 +102,50 @@
         }
 
         <div class="editor-block">
-            <label class="editor-label">Title</label>
+          <label class="editor-label">Title</label>
 
-            <input
-                type="text"
-                [(ngModel)]="editorForm.title"
-                name="title"
-                class="title-input-box"
-                placeholder="Title"
-            />
+          <input
+            type="text"
+            [(ngModel)]="editorForm.title"
+            name="title"
+            class="title-input-box"
+            placeholder="Title"
+          />
         </div>
 
         <div class="editor-meta-row">
           <select
             [(ngModel)]="editorForm.category"
             name="category"
-            class="category-dropdown"
-          >
+            class="category-dropdown">
             <option value="">Select categories</option>
             @for (category of categories; track category) {
               <option [value]="category">{{ category }}</option>
             }
           </select>
+        </div>
 
+        <div class="editor-block">
+          <label class="editor-label">Read Time</label>
+          <input
+            type="text"
+            [(ngModel)]="editorForm.readTime"
+            name="readTime"
+            class="title-input-box"
+            placeholder="e.g. 5 min read"
+          />
+        </div>
+
+        <div class="editor-block">
+          <label class="editor-label">Editor Favorite</label>
+          <label class="editor-checkbox-row">
+            <input
+              type="checkbox"
+              [(ngModel)]="editorForm.editorFavorite"
+              name="editorFavorite"
+            />
+            <span>Mark this article as editor favorite</span>
+          </label>
         </div>
 
         <div class="editor-block">
@@ -136,8 +155,7 @@
             name="description"
             rows="5"
             class="description-textarea"
-            placeholder="Write a brief description of your article..."
-          ></textarea>
+            placeholder="Write a brief description of your article..."></textarea>
         </div>
 
         <div class="editor-block">
@@ -178,8 +196,7 @@
             name="content"
             [modules]="quillModules"
             class="article-quill"
-            placeholder="Start writing your story..."
-          >
+            placeholder="Start writing your story...">
           </quill-editor>
         </div>
 
@@ -188,8 +205,7 @@
             class="save-draft-action"
             type="button"
             (click)="saveDraft()"
-            [disabled]="isSaving"
-          >
+            [disabled]="isSaving">
             {{ isSaving ? 'Saving...' : 'Save Draft' }}
           </button>
 
@@ -197,8 +213,7 @@
             class="publish-action"
             type="button"
             (click)="publishArticle()"
-            [disabled]="isPublishing"
-          >
+            [disabled]="isPublishing">
             {{ isPublishing ? 'Publishing...' : 'Publish Article' }}
           </button>
         </div>
@@ -228,6 +243,16 @@
           <span>Keywords</span>
           <strong>{{ editorForm.keywords.length }}</strong>
         </div>
+
+        <div class="info-row">
+          <span>Read Time</span>
+          <strong>{{ editorForm.readTime || 'Auto' }}</strong>
+        </div>
+
+        <div class="info-row">
+          <span>Editor Favorite</span>
+          <strong>{{ editorForm.editorFavorite ? 'Yes' : 'No' }}</strong>
+        </div>
       </div>
 
       <div class="info-card">
@@ -254,9 +279,7 @@
       <div class="article-details-page preview-mode">
         <div class="article-details-container">
           <div class="top-bar">
-            <button class="back-btn" type="button" (click)="closePreview()">
-              ←
-            </button>
+            <button class="back-btn" type="button" (click)="closePreview()">←</button>
           </div>
 
           <div class="article-layout">
@@ -305,14 +328,12 @@
                     type="button"
                     class="icon-btn like-btn"
                     [class.active]="previewArticle.liked"
-                    (click)="togglePreviewLike()"
-                  >
+                    (click)="togglePreviewLike()">
                     <i class="material-icons">
                       {{ previewArticle.liked ? 'favorite' : 'favorite_border' }}
                     </i>
                     <span>{{ previewArticle.likes }}</span>
                   </button>
-
                 </div>
 
                 <div class="stats-right">
@@ -320,8 +341,7 @@
                     type="button"
                     class="icon-btn bookmark-btn"
                     [class.active]="previewArticle.bookmark"
-                    (click)="togglePreviewBookmark()"
-                  >
+                    (click)="togglePreviewBookmark()">
                     <i class="material-icons">
                       {{ previewArticle.bookmark ? 'bookmark' : 'bookmark_border' }}
                     </i>
@@ -340,10 +360,11 @@
               <div class="article-content">
                 <p>{{ previewArticle.description }}</p>
 
-                
-
                 @if (previewArticle.content) {
-                  <div class="preview-rich-content" [innerHTML]="decodeHtml(previewArticle.content)"></div>
+                  <div
+                    class="preview-rich-content"
+                    [innerHTML]="decodeHtml(previewArticle.content)">
+                  </div>
                 }
               </div>
             </div>
